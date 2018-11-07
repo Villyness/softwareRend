@@ -145,8 +145,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xSize: 16
   ySize: 16
+  xCoord: 0
+  Red: 0
+  Green: 0
+  Blue: 0
   quadRenderer: {fileID: 138412598}
-  backBuffer: ff0000ff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  backBuffer: 
+  tex: {fileID: 0}
 --- !u!64 &138412597
 MeshCollider:
   m_ObjectHideFlags: 0
