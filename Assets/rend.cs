@@ -14,6 +14,7 @@ public class rend : MonoBehaviour
     public MeshRenderer quadRenderer;
     public byte[] backBuffer;
     public Texture2D tex;
+    public Star test;
 
     public bool Clear;
 
@@ -28,47 +29,33 @@ public class rend : MonoBehaviour
         tex = new Texture2D(xSize, ySize, TextureFormat.RGB24, false);
         tex.filterMode = FilterMode.Point; // Removes blurring
         quadRenderer.material.mainTexture = tex;
+
+        test = new Star();
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
+        ColourChange(0, 0, 0);
+
+        PixelChange(Random.Range(0, ByteSize/3), Random.Range(0, ByteSize/3), Random.Range(0, 255), Random.Range(0, 255), Random.Range(0, 255));
+
         tex.LoadRawTextureData(backBuffer);
         tex.Apply(false);
-        PixelChange(xCoord, yCoord, Red, Green, Blue);
-
-        if (Clear)
-        {
-            Debug.Log("Hello World");
-            ColourChange(Red, Green, Blue);
-        }
     }
 
     public void ColourChange(int R, int G, int B)
     {
-        for (int i = 0; i < ByteSize; i++)
+        for (int i = 0; i < ByteSize/3; i++)
         {
             PixelChange(i, 0, R, G, B);
-            /*if (i % 3 == 0)
-            {
-                backBuffer[i] = (byte) R;
-            }
-
-            if ((i - 1) % 3 == 0)
-            {
-                backBuffer[i] = (byte) G;
-            }
-
-            if ((i - 2) % 3 == 0)
-            {
-                backBuffer[i] = (byte) B;
-            }*/
         }
     }
 
     public void PixelChange(int x, int y, int R, int G, int B)
     {
         backBuffer[(xSize * 3 * y) + (x * 3)] = (byte)R;
+        //Debug.Log((xSize * 3 * y) + (x * 3));
         backBuffer[(xSize * 3 * y) + ((x * 3) + 1)] = (byte)G;
         backBuffer[(xSize * 3 * y) + ((x * 3) + 2)] = (byte)B;
     }
