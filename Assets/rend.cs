@@ -7,6 +7,7 @@ public class rend : MonoBehaviour
     public int xSize;
     public int ySize;
     public int xCoord;
+    public int yCoord;
     public int Red;
     public int Green;
     public int Blue;
@@ -40,14 +41,21 @@ public class rend : MonoBehaviour
     {
         tex.LoadRawTextureData(backBuffer);
         tex.Apply(false);
-        ColourChange(Red, Green, Blue);
+        ColourChange(xCoord, yCoord, Red, Green, Blue);
     }
 
-    public void ColourChange(int R, int G, int B)
+    public void ColourChange(int x, int y, int R, int G, int B)
     {
-        for (int i = 0; i < ByteSize; i++)
+        backBuffer[(xSize * 3 * y) + (x * 3)] = (byte)R;
+        backBuffer[(xSize * 3 * y) + ((x * 3) + 1)] = (byte)G;
+        backBuffer[(xSize * 3 * y) + ((x * 3) + 2)] = (byte)B;
+
+        //backBuffer[]
+
+        /*for (int i = 0; i < 3; i++)
         {
-            if (i % 3 == 0)
+            
+            /*if (i % 3 == 0)
             {
                 backBuffer[i] = (byte)R;
             }
@@ -60,7 +68,7 @@ public class rend : MonoBehaviour
             if ((i - 2) % 3 == 0)
             {
                 backBuffer[i] = (byte)B;
-            }
-        }
+            }*/
+    
     }
 }
