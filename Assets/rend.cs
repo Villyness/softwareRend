@@ -15,6 +15,8 @@ public class rend : MonoBehaviour
     public byte[] backBuffer;
     public Texture2D tex;
 
+    public bool Clear;
+
     private int ByteSize;
 
     // Use this for initialization
@@ -23,17 +25,9 @@ public class rend : MonoBehaviour
         ByteSize = xSize * ySize * 3;
         backBuffer = new byte[ByteSize];
 
-        /*backBuffer[0] = 255;
-        backBuffer[21] = 255;
-        backBuffer[22] = 255;
-        backBuffer[23] = 255;*/
-
-        
         tex = new Texture2D(xSize, ySize, TextureFormat.RGB24, false);
         tex.filterMode = FilterMode.Point; // Removes blurring
         quadRenderer.material.mainTexture = tex;
-
-
     }
 	
 	// Update is called once per frame
@@ -43,7 +37,7 @@ public class rend : MonoBehaviour
         tex.Apply(false);
         PixelChange(xCoord, yCoord, Red, Green, Blue);
 
-        if (Input.GetKeyDown(KeyCode.Z))
+        if (Clear)
         {
             Debug.Log("Hello World");
             ColourChange(Red, Green, Blue);
@@ -52,9 +46,10 @@ public class rend : MonoBehaviour
 
     public void ColourChange(int R, int G, int B)
     {
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < ByteSize; i++)
         {
-            if (i % 3 == 0)
+            PixelChange(i, 0, R, G, B);
+            /*if (i % 3 == 0)
             {
                 backBuffer[i] = (byte) R;
             }
@@ -67,7 +62,7 @@ public class rend : MonoBehaviour
             if ((i - 2) % 3 == 0)
             {
                 backBuffer[i] = (byte) B;
-            }
+            }*/
         }
     }
 

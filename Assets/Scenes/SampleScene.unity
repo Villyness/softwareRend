@@ -147,12 +147,13 @@ MonoBehaviour:
   ySize: 16
   xCoord: 0
   yCoord: 0
-  Red: 0
+  Red: 163
   Green: 0
   Blue: 0
   quadRenderer: {fileID: 138412598}
   backBuffer: 
   tex: {fileID: 0}
+  Clear: 0
 --- !u!64 &138412597
 MeshCollider:
   m_ObjectHideFlags: 0
