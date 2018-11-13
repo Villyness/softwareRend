@@ -15,6 +15,7 @@ public class rend : MonoBehaviour
     public byte[] backBuffer;
     public Texture2D tex;
     public Star test;
+    public List<Star> Nova;
 
     public bool Clear;
 
@@ -30,15 +31,34 @@ public class rend : MonoBehaviour
         tex.filterMode = FilterMode.Point; // Removes blurring
         quadRenderer.material.mainTexture = tex;
 
+        Vector3 Pos = new Vector3(Random.Range(0, 16), Random.Range(0, 16), 0);
+
         test = new Star();
+        for (int i = 0; i < 10; i++)
+        {
+            Pos.x = Random.Range(0, 16);
+            Pos.y = Random.Range(0, 16);
+            Star _star = new Star();
+            _star.OwnPos = Pos;
+            Nova.Add(_star);
+        }
+
+        foreach (Star star in Nova)
+        {
+            print(star.OwnPos);
+        }
     }
 	
 	// Update is called once per frame
 	void Update ()
-    {
+	{
+	    test.OwnPos.x = Random.Range(0, 16);
+	    test.OwnPos.y = Random.Range(0, 16);
+	    //test.OwnPos.x = Random.Range(0, 16);
+
         ColourChange(0, 0, 0);
 
-        PixelChange(Random.Range(0, ByteSize/3), Random.Range(0, ByteSize/3), Random.Range(0, 255), Random.Range(0, 255), Random.Range(0, 255));
+        PixelChange((int)test.OwnPos.x, (int)test.OwnPos.y, Random.Range(0, 255), Random.Range(0, 255), Random.Range(0, 255));
 
         tex.LoadRawTextureData(backBuffer);
         tex.Apply(false);
