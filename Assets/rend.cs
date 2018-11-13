@@ -41,34 +41,40 @@ public class rend : MonoBehaviour
     {
         tex.LoadRawTextureData(backBuffer);
         tex.Apply(false);
-        ColourChange(xCoord, yCoord, Red, Green, Blue);
+        PixelChange(xCoord, yCoord, Red, Green, Blue);
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            Debug.Log("Hello World");
+            ColourChange(Red, Green, Blue);
+        }
     }
 
-    public void ColourChange(int x, int y, int R, int G, int B)
+    public void ColourChange(int R, int G, int B)
     {
-        backBuffer[(xSize * 3 * y) + (x * 3)] = (byte)R;
-        backBuffer[(xSize * 3 * y) + ((x * 3) + 1)] = (byte)G;
-        backBuffer[(xSize * 3 * y) + ((x * 3) + 2)] = (byte)B;
-
-        //backBuffer[]
-
-        /*for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++)
         {
-            
-            /*if (i % 3 == 0)
+            if (i % 3 == 0)
             {
-                backBuffer[i] = (byte)R;
+                backBuffer[i] = (byte) R;
             }
 
             if ((i - 1) % 3 == 0)
             {
-                backBuffer[i] = (byte)G;
+                backBuffer[i] = (byte) G;
             }
 
             if ((i - 2) % 3 == 0)
             {
-                backBuffer[i] = (byte)B;
-            }*/
-    
+                backBuffer[i] = (byte) B;
+            }
+        }
+    }
+
+    public void PixelChange(int x, int y, int R, int G, int B)
+    {
+        backBuffer[(xSize * 3 * y) + (x * 3)] = (byte)R;
+        backBuffer[(xSize * 3 * y) + ((x * 3) + 1)] = (byte)G;
+        backBuffer[(xSize * 3 * y) + ((x * 3) + 2)] = (byte)B;
     }
 }
