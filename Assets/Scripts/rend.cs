@@ -8,18 +8,23 @@ public class rend : MonoBehaviour
     public int ySize;
     public int xCoord;
     public int yCoord;
+
     public int Red;
     public int Green;
     public int Blue;
+
     public MeshRenderer quadRenderer;
     public byte[] backBuffer;
     public Texture2D tex;
-    public Star test;
-    public List<Star> Nova;
+    public List<Star> Nova = new List<Star>();
+    public Vector3 Pos;
 
     public bool Clear;
 
     private int ByteSize;
+
+    public bool IHaveYou;
+    public bool EverythingIdEverNeed;
 
     // Use this for initialization
     void Start ()
@@ -31,34 +36,35 @@ public class rend : MonoBehaviour
         tex.filterMode = FilterMode.Point; // Removes blurring
         quadRenderer.material.mainTexture = tex;
 
-        Vector3 Pos = new Vector3(Random.Range(0, 16), Random.Range(0, 16), 0);
-
-        test = new Star();
         for (int i = 0; i < 10; i++)
         {
-            Pos.x = Random.Range(0, 16);
-            Pos.y = Random.Range(0, 16);
             Star _star = new Star();
+            Pos = new Vector3(Random.Range(0, 16), Random.Range(0, 16), 0);
             _star.OwnPos = Pos;
             Nova.Add(_star);
         }
 
-        foreach (Star star in Nova)
-        {
-            print(star.OwnPos);
-        }
+        
     }
 	
 	// Update is called once per frame
 	void Update ()
 	{
-	    test.OwnPos.x = Random.Range(0, 16);
-	    test.OwnPos.y = Random.Range(0, 16);
-	    //test.OwnPos.x = Random.Range(0, 16);
+	    ColourChange(0, 0, 0);
 
-        ColourChange(0, 0, 0);
-
-        PixelChange((int)test.OwnPos.x, (int)test.OwnPos.y, Random.Range(0, 255), Random.Range(0, 255), Random.Range(0, 255));
+        foreach (Star star in Nova)
+        {
+            //print(star);
+            PixelChange((int)(star.OwnPos.x%17), (int)(star.OwnPos.y), 255, 255, 255);
+            if (star.OwnPos.x < 0 || star.OwnPos.y < 0 /*|| (star.OwnPos.x%17) > xSize +2 || star.OwnPos.y > ySize +2*/)
+            {
+                
+                //Debug.Log(xSize - 1);
+                return;
+            }
+            star.Update();
+            Debug.Log(star.OwnPos.x);
+        }
 
         tex.LoadRawTextureData(backBuffer);
         tex.Apply(false);
