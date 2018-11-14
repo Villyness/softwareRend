@@ -11,4 +11,12 @@ public class Star
         OwnPos.x += 1*Time.deltaTime;
         //OwnPos.y += 1;
     }
+
+    public void Reset()
+    {
+        if(OwnPos.x >= 16)
+        {
+            OwnPos.x = 0;
+        }
+    }
 }
