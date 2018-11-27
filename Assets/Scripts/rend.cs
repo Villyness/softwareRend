@@ -13,6 +13,8 @@ public class rend : MonoBehaviour
     public int Green;
     public int Blue;
 
+    public Camera mainCam;
+
     public MeshRenderer quadRenderer;
     public byte[] backBuffer;
     public Texture2D tex;
@@ -22,9 +24,6 @@ public class rend : MonoBehaviour
     public bool Clear;
 
     private int ByteSize;
-
-    public bool IHaveYou;
-    public bool EverythingIdEverNeed;
 
     // Use this for initialization
     void Start ()
@@ -43,8 +42,6 @@ public class rend : MonoBehaviour
             _star.OwnPos = Pos;
             Nova.Add(_star);
         }
-
-        
     }
 	
 	// Update is called once per frame
@@ -55,15 +52,20 @@ public class rend : MonoBehaviour
         foreach (Star star in Nova)
         {
             //print(star);
-            PixelChange((int)(star.OwnPos.x%17), (int)(star.OwnPos.y), 255, 255, 255);
-            if (star.OwnPos.x < 0 || star.OwnPos.y < 0 /*|| (star.OwnPos.x%17) > xSize +2 || star.OwnPos.y > ySize +2*/)
+            star.Start();
+            //print(star.OwnPos.z);
+            if ((star.OwnPos.x)/(star.OwnPos.z) < 0 /*|| (star.OwnPos.y)/(star.OwnPos.z) < 0 || (star.OwnPos.x%17) > xSize +2 || star.OwnPos.y > ySize +2*/)
             {
-                
+                star.OwnPos.x = (star.OwnPos.x) * (-1);
+                //Debug.Log((star.OwnPos.x));
                 //Debug.Log(xSize - 1);
-                return;
+                //return;
             }
-            star.Update();
-            Debug.Log(star.OwnPos.x);
+            PixelChange((int)((star.OwnPos.x%16)/(star.OwnPos.z)), (int)((star.OwnPos.x % 16) / (star.OwnPos.z)), 255, 255, 255);
+            //print((star.OwnPos.x % 17)/(star.OwnPos.z));
+            
+            star.Update(mainCam.transform.position);
+            Debug.Log((star.OwnPos.x % 16) / (star.OwnPos.z));
         }
 
         tex.LoadRawTextureData(backBuffer);

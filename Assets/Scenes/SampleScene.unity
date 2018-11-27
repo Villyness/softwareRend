@@ -150,9 +150,11 @@ MonoBehaviour:
   Red: 163
   Green: 0
   Blue: 0
+  mainCam: {fileID: 534669904}
   quadRenderer: {fileID: 138412598}
   backBuffer: 
   tex: {fileID: 0}
+  Pos: {x: 0, y: 0, z: 0}
   Clear: 0
 --- !u!64 &138412597
 MeshCollider:
