@@ -6,14 +6,10 @@ public class rend : MonoBehaviour
 {
     public int xSize;
     public int ySize;
-    public int xCoord;
-    public int yCoord;
-
+    
     public int Red;
     public int Green;
     public int Blue;
-
-    public Camera mainCam;
 
     public MeshRenderer quadRenderer;
     public byte[] backBuffer;
@@ -51,20 +47,26 @@ public class rend : MonoBehaviour
 
         foreach (Star star in Nova)
         {
-            //print(star);
             star.Start();
-            //print(star.OwnPos.z);
-            if ((star.OwnPos.x)/(star.OwnPos.z) < 0 /*|| (star.OwnPos.y)/(star.OwnPos.z) < 0 || (star.OwnPos.x%17) > xSize +2 || star.OwnPos.y > ySize +2*/)
+
+            if ((star.OwnPos.x)/(star.OwnPos.z) < 0 || (star.OwnPos.y)/(star.OwnPos.z) < 0 /*|| (star.OwnPos.x%17) > xSize +2 || star.OwnPos.y > ySize +2*/)
             {
                 star.OwnPos.x = (star.OwnPos.x) * (-1);
+                star.OwnPos.y = (star.OwnPos.y) * (-1);
                 //Debug.Log((star.OwnPos.x));
                 //Debug.Log(xSize - 1);
                 //return;
             }
-            PixelChange((int)((star.OwnPos.x%16)/(star.OwnPos.z)), (int)((star.OwnPos.x % 16) / (star.OwnPos.z)), 255, 255, 255);
-            //print((star.OwnPos.x % 17)/(star.OwnPos.z));
-            
-            star.Update(mainCam.transform.position);
+
+            PixelChange((int)((star.OwnPos.x%16)/(star.OwnPos.z)), (int)((star.OwnPos.y % 16) / (star.OwnPos.z)), 255, 255, 255);
+
+            if (((star.OwnPos.x % 16) / (star.OwnPos.z)) < 1 && ((star.OwnPos.x % 16) / (star.OwnPos.z)) > 0)
+            {
+                Vector3 NewPos = new Vector3(Random.Range(0, 16), Random.Range(0, 16), -1);
+                star.OwnPos = NewPos;
+            }
+
+            star.Update();
             Debug.Log((star.OwnPos.x % 16) / (star.OwnPos.z));
         }
 
