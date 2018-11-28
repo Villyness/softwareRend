@@ -49,22 +49,27 @@ public class rend : MonoBehaviour
         {
             star.Start();
 
-            if ((star.OwnPos.x)/(star.OwnPos.z) < 0 || (star.OwnPos.y)/(star.OwnPos.z) < 0 /*|| (star.OwnPos.x%17) > xSize +2 || star.OwnPos.y > ySize +2*/)
+            if ((star.OwnPos.x)/(star.OwnPos.z) < 0 || (star.OwnPos.y)/(star.OwnPos.z) < 0)
             {
                 star.OwnPos.x = (star.OwnPos.x) * (-1);
                 star.OwnPos.y = (star.OwnPos.y) * (-1);
-                //Debug.Log((star.OwnPos.x));
-                //Debug.Log(xSize - 1);
-                //return;
             }
 
-            PixelChange((int)((star.OwnPos.x%16)/(star.OwnPos.z)), (int)((star.OwnPos.y % 16) / (star.OwnPos.z)), 255, 255, 255);
+            PixelChange((int)((star.OwnPos.x%16 + (star.OwnPos.x/2))/(star.OwnPos.z)), (int)((star.OwnPos.y % 16 + (star.OwnPos.y/2)) / (star.OwnPos.z)), 255, 255, 255);
 
             if (((star.OwnPos.x % 16) / (star.OwnPos.z)) < 1 && ((star.OwnPos.x % 16) / (star.OwnPos.z)) > 0)
             {
                 Vector3 NewPos = new Vector3(Random.Range(0, 16), Random.Range(0, 16), -1);
                 star.OwnPos = NewPos;
             }
+
+            if (((star.OwnPos.y % 16) / (star.OwnPos.z)) < 1 && ((star.OwnPos.y % 16) / (star.OwnPos.z)) > 0)
+            {
+                Vector3 NewPos = new Vector3(Random.Range(0, 16), Random.Range(0, 16), -1);
+                star.OwnPos = NewPos;
+            }
+
+            // Apparently I have to halve my x and y size?
 
             star.Update();
             Debug.Log((star.OwnPos.x % 16) / (star.OwnPos.z));
@@ -85,7 +90,6 @@ public class rend : MonoBehaviour
     public void PixelChange(int x, int y, int R, int G, int B)
     {
         backBuffer[(xSize * 3 * y) + (x * 3)] = (byte)R;
-        //Debug.Log((xSize * 3 * y) + (x * 3));
         backBuffer[(xSize * 3 * y) + ((x * 3) + 1)] = (byte)G;
         backBuffer[(xSize * 3 * y) + ((x * 3) + 2)] = (byte)B;
     }
