@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class rend : MonoBehaviour
+public class rend : MonoBehaviour       // Just need to replace star with vertices
 {
     public int xSize;
     public int ySize;
@@ -20,6 +20,9 @@ public class rend : MonoBehaviour
     public bool Clear;
 
     private int ByteSize;
+
+    // Mesh stuff
+    public List<mesh> CubeGroup;
 
     // Use this for initialization
     void Start ()
@@ -43,23 +46,46 @@ public class rend : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-	    ColourChange(0, 0, 0);
+        ColourChange(0, 0, 0);
 
+        foreach(Star star in Nova)
+        {
+            PixelChange((int)(((star.OwnPos.x % 16 + (star.OwnPos.x)) / (star.OwnPos.z))/2), (int)(((star.OwnPos.y % 16 + (star.OwnPos.y)) / (star.OwnPos.z))/2), 255, 255, 255);   // Call the function to draw the stars
+        }
+
+        tex.LoadRawTextureData(backBuffer);
+        tex.Apply(false);
+
+        SpawnCubes();
+    }
+
+    public void ColourChange(int R, int G, int B)
+    {
+        for (int i = 0; i < ByteSize / 3; i++)
+        {
+            PixelChange(i, 0, R, G, B);
+        }
+    }
+
+    public void PixelChange(int x, int y, int R, int G, int B)
+    {
         foreach (Star star in Nova)
         {
-            star.Start();
+            star.Start();   // This sets z to -1; runs only once
 
-            if ((star.OwnPos.x)/(star.OwnPos.z) < 0 || (star.OwnPos.y)/(star.OwnPos.z) < 0)
+            if ((star.OwnPos.x) / (star.OwnPos.z) < 0) // If x/z were to give a negative value (and hence break the PixelChange()), then set it to positive/negative
             {
                 star.OwnPos.x = (star.OwnPos.x) * (-1);
+            }
+
+            if ((star.OwnPos.y) / (star.OwnPos.z) < 0)
+            {
                 star.OwnPos.y = (star.OwnPos.y) * (-1);
             }
 
-            PixelChange((int)((star.OwnPos.x%16 + (star.OwnPos.x/2))/(star.OwnPos.z)), (int)((star.OwnPos.y % 16 + (star.OwnPos.y/2)) / (star.OwnPos.z)), 255, 255, 255);
-
-            if (((star.OwnPos.x % 16) / (star.OwnPos.z)) < 1 && ((star.OwnPos.x % 16) / (star.OwnPos.z)) > 0)
+            if (((star.OwnPos.x % 16) / (star.OwnPos.z)) < 8 /*&& ((star.OwnPos.x % 16) / (star.OwnPos.z)) > 0*/)   // Reset the location after it goes below 1
             {
-                Vector3 NewPos = new Vector3(Random.Range(0, 16), Random.Range(0, 16), -1);
+                Vector3 NewPos = new Vector3(Random.Range(8, 16), Random.Range(8, 16), -1);
                 star.OwnPos = NewPos;
             }
 
@@ -69,28 +95,22 @@ public class rend : MonoBehaviour
                 star.OwnPos = NewPos;
             }
 
-            // Apparently I have to halve my x and y size?
-
             star.Update();
             Debug.Log((star.OwnPos.x % 16) / (star.OwnPos.z));
         }
 
-        tex.LoadRawTextureData(backBuffer);
-        tex.Apply(false);
-    }
-
-    public void ColourChange(int R, int G, int B)
-    {
-        for (int i = 0; i < ByteSize/3; i++)
-        {
-            PixelChange(i, 0, R, G, B);
-        }
-    }
-
-    public void PixelChange(int x, int y, int R, int G, int B)
-    {
+        // Need to refactor it to take cubes
         backBuffer[(xSize * 3 * y) + (x * 3)] = (byte)R;
         backBuffer[(xSize * 3 * y) + ((x * 3) + 1)] = (byte)G;
         backBuffer[(xSize * 3 * y) + ((x * 3) + 2)] = (byte)B;
+    }
+
+    public void SpawnCubes()
+    {
+        for (i = 0; i < 4; i++)
+        {
+            mesh cubeCluster = new mesh();
+
+        }
     }
 }
