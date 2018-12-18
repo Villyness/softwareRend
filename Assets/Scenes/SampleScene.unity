@@ -125,6 +125,7 @@ GameObject:
   - component: {fileID: 138412598}
   - component: {fileID: 138412597}
   - component: {fileID: 138412596}
+  - component: {fileID: 138412601}
   m_Layer: 0
   m_Name: Quad
   m_TagString: Untagged
@@ -145,17 +146,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xSize: 16
   ySize: 16
-  xCoord: 0
-  yCoord: 0
   Red: 163
   Green: 0
   Blue: 0
-  mainCam: {fileID: 534669904}
   quadRenderer: {fileID: 138412598}
   backBuffer: 
   tex: {fileID: 0}
-  Pos: {x: 0, y: 0, z: 0}
-  Clear: 0
+  testObject: {fileID: 1806024770998750, guid: 2c8e1ecccb0914242b7aeab5a0ade670, type: 2}
 --- !u!64 &138412597
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -225,6 +222,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &138412601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 138412595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85894cd460294944daba4a0b5ec4d6b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ClusterAmount: 5
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
